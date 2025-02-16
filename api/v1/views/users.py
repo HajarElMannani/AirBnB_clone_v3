@@ -26,7 +26,8 @@ def users_id(user_id):
     return jsonify(users.to_dict())
 
 
-@app_views.route('/users/<string:user_id>', methods=['DELETE'])
+@app_views.route('/users/<string:user_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def user_delete(user_id=None):
     '''delete a user by id'''
     user = storage.get(User, user_id)
@@ -43,15 +44,17 @@ def user_post():
     user = request.get_json(silent=True)
     if user is None:
         abort(400, "Not a JSON")
-    if "name" not in user.keys():
-        abort(400, "Missing name")
+    if "email" not in user.keys():
+        abort(400, "Missing email")
+    if "password" not in user.keys():
+        abort(400, "Missing password")
     new_item = User(**user)
     storage.new(new_item)
     storage.save()
     return jsonify(new_item.to_dict()), 201
 
 
-@app_views.route('users/<string:user_id>', methods=['PUT'],
+@app_views.route('/users/<string:user_id>', methods=['PUT'],
                  strict_slashes=False)
 def user_update(user_id):
     '''update user'''
@@ -62,7 +65,7 @@ def user_update(user_id):
     if inp is None:
         abort(400, "Not a JSON")
     for key, value in inp.items():
-        if key not in ["id", "created_at", "updated_at"]:
+        if key not in ["id", "email", "created_at", "updated_at"]:
             setattr(user, key, value)
     storage.save()
     return jsonify(user.to_dict()), 200
