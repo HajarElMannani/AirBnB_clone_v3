@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 '''view for State objects'''
 import models
-import json
 from flask import jsonify, abort, request
 from models import storage
 from models.state import State
@@ -16,8 +15,7 @@ def states_get():
     return jsonify(states)
 
 
-@app_views.route('/states/<string:state_id>', methods=['GET'],
-                 strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def state_id(state_id):
     '''retrieve State by id'''
     states = storage.get(State, state_id)
@@ -26,8 +24,8 @@ def state_id(state_id):
     return jsonify(states.to_dict())
 
 
-@app_views.route('/states/<string:state_id>', methods=['DELETE'])
-def state_delete(state_id=None):
+@app_views.route('/states/<state_id>', methods=['DELETE'])
+def state_delete(state_id):
     '''delete a state by id'''
     state = storage.get(State, state_id)
     if state is None:
@@ -35,16 +33,16 @@ def state_delete(state_id=None):
     storage.delete(state)
     storage.save()
     return jsonify({}), 200
-
+    
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def states_post():
     '''Create a state'''
     state = request.get_json(silent=True)
     if state is None:
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
     if "name" not in state.keys():
-        abort(400, "Missing name")
+        abort(400, description="Missing name")
     new_item = State(**state)
     storage.new(new_item)
     storage.save()
@@ -61,7 +59,7 @@ def state_update(state_id):
     if inp is None:
         abort(400, "Not a JSON")
     for key, value in inp.items():
-        if key not in ["id", "created_at", "updated_at"]:
+        if key not in {"id", "created_at", "updated_at"}:
             setattr(state, key, value)
     storage.save()
     return jsonify(state.to_dict()), 200
