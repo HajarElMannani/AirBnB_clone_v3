@@ -22,7 +22,7 @@ def amenities_get():
 def amenity_id(amenity_id):
     '''get amenities by id'''
     amenities = storage.get(Amenity, amenity_id)
-    if not states:
+    if not amenities:
         abort(404)
     return jsonify(amenities.to_dict())
 
@@ -56,7 +56,7 @@ def amenity_post():
                  strict_slashes=False)
 def amenity_update(amenity_id):
     '''update an amenity'''
-    amenity = storage.get(Amenity, Amenity_id)
+    amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
     inp = request.get_json(silent=True)
@@ -66,4 +66,4 @@ def amenity_update(amenity_id):
         if key not in ["id", "created_at", "updated_at"]:
             setattr(amenity, key, value)
     storage.save()
-    return jsonify(state.to_dict()), 200
+    return jsonify(amenity.to_dict()), 200
