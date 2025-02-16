@@ -7,8 +7,14 @@ from os import getenv
 
 
 app = Flask(__name__)
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.json.ensure_ascii = False 
 app.register_blueprint(app_views)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    '''handler for 404 errors that returns JSON response for 404 errors'''
+    return jsonify({"error": "Not found"}), 404
 
 
 @app.teardown_appcontext
