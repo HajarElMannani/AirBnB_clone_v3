@@ -14,23 +14,23 @@ from api.v1.views import app_views
 def users_get():
     '''Get all users'''
     users_all = storage.all(User).values()
-    users = [user.to_dict() for user in users_all]
-    return jsonify(users)
+    usersg = [user.to_dict() for user in users_all]
+    return jsonify(usersg)
 
 
 @app_views.route('/users/<string:user_id>', methods=['GET'],
                  strict_slashes=False)
 def users_id(user_id):
     '''get users by id'''
-    users = storage.get(User, user_id)
-    if not users:
+    user = storage.get(User, user_id)
+    if not user:
         abort(404)
-    return jsonify(users.to_dict())
+    return jsonify(user.to_dict())
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'],
                  strict_slashes=False)
-def user_delete(user_id=None):
+def user_delete(user_id):
     '''delete users'''
     user = storage.get(User, user_id)
     if user is None:
