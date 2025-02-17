@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """
-view/__int__ file
+init file
 """
-
-
 from flask import Blueprint
 
 

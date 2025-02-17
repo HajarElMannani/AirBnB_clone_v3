@@ -76,10 +76,10 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        '''Metos that returns the object based on the class and its ID'''
+        '''Method that returns the object based on the class and its ID'''
 
         if cls and id:
-            instance = f"{cls.__name__}.{id}"
+            instance = "{}.{}".format(cls.__name__, id)
             obj = self.all(cls)
             return obj.get(instance)
         return None
@@ -87,4 +87,10 @@ class DBStorage:
     def count(self, cls=None):
         '''Method that returns the number of objects in storage
         matching the given class'''
-        return len(self.all(cls))
+        if not cls:
+            return len(self.all())
+        try:
+            return len(self.all(classes[cls]))
+        except:
+            return None
+        return None
