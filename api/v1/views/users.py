@@ -2,12 +2,11 @@
 '''
 view for Users
 '''
-import models
-import json
-from flask import jsonify, abort, request
+from api.v1.views import app_views
 from models import storage
 from models.user import User
-from api.v1.views import app_views
+from flask import jsonify, abort, request
+import json
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
