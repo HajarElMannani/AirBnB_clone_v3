@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-'''view for Users'''
+'''
+view for Users
+'''
 import models
 import json
 from flask import jsonify, abort, request
@@ -27,7 +29,7 @@ def users_id(user_id):
     return jsonify(users.to_dict())
 
 
-@app_views.route('/users/<string:user_id>', methods=['DELETE'],
+@app_views.route('/users/<user_id>', methods=['DELETE'],
                  strict_slashes=False)
 def user_delete(user_id=None):
     '''delete users'''
@@ -55,7 +57,7 @@ def user_post():
     return jsonify(new_item.to_dict()), 201
 
 
-@app_views.route('/users/<string:user_id>', methods=['PUT'],
+@app_views.route('/users/<user_id>', methods=['PUT'],
                  strict_slashes=False)
 def user_update(user_id):
     '''update users'''
