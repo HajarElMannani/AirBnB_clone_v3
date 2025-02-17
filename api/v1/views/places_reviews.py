@@ -5,8 +5,8 @@ import json
 from flask import jsonify, abort, request
 from models import storage
 from models.state import State
-from models.state import City
 from models.city import City
+from models.user import User
 from models.place import Place
 from models.review import Review
 from api.v1.views import app_views
@@ -16,10 +16,10 @@ from api.v1.views import app_views
                  strict_slashes=False)
 def review_get(place_id):
     '''Get rviews of a place'''
-    places = storage.get(Place, place_id)
-    if not places:
+    place = storage.get(Place, place_id)
+    if not place:
         abort(404)
-    reviews_list = [review.to_dict() for review in places.reviews]
+    reviews_list = [review.to_dict() for review in place.reviews]
     return jsonify(reviews_list)
 
 
@@ -44,7 +44,7 @@ def review_delete(review_id=None):
     return jsonify({}), 200
 
 
-@app_views.route('places/<place_id>/reviews', methods=['POST'],
+@app_views.route('/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
 def reviews_post(place_id):
     '''review a city'''
@@ -78,6 +78,6 @@ def review_update(review_id):
         abort(400, "Not a JSON")
     for key, value in inp.items():
         if key not in ["id", "user_id", "created_at", "updated_at"]:
-            setattr(Review, key, value)
+            setattr(review, key, value)
     storage.save()
     return jsonify(review.to_dict()), 200
