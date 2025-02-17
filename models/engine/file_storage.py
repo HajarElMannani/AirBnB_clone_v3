@@ -73,7 +73,7 @@ class FileStorage:
         '''Returns the object based on the class and its ID'''
         clas = cls.__name__
         if cls and id:
-            instance = self.__objects.get("{}.{}".format(cls__name__, id))
+            instance = self.__objects.get("{}.{}".format(cls.__name__, id))
             return instance
         return None
 
