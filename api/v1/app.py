@@ -12,7 +12,6 @@ from os import getenv
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
-#app.config['JSON_AS_ASCII'] = False
 app.register_blueprint(app_views)
 
 
