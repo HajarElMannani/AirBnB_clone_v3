@@ -79,7 +79,7 @@ class DBStorage:
         '''Method that returns the object based on the class and its ID'''
 
         if cls and id:
-            instance = "{}.{}".format(cls.__name__, id)
+            instance = "{}.{}".format(cls, id)
             obj = self.all(cls)
             return obj.get(instance)
         return None
