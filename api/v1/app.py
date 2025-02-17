@@ -26,6 +26,7 @@ def teardown_ap(exception):
 
 
 if __name__ == "__main__":
+    '''main app'''
     if getenv('HBNB_API_HOST'):
         h_host = getenv('HBNB_API_HOST')
     else:
