@@ -9,7 +9,8 @@ from flask import abort, request, jsonify
 import json
 
 
-@app_views.route("/cities/<city_id>/places", methods=['GET'], strict_slashes=False)
+@app_views.route("/cities/<city_id>/places", methods=['GET'],
+                 strict_slashes=False)
 def place_get(city_id):
     '''get place by city'''
     cities = storage.get(City, city_id)
