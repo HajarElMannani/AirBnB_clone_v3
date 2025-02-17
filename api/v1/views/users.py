@@ -11,7 +11,8 @@ from api.v1.views import app_views
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def users_get():
     '''Get all users'''
-    users_all = storage.all(User).values()
+    users_all = storage.all('User').values()
+    print(users_all)
     users = [user.to_dict() for user in users_all]
     return jsonify(users)
 
@@ -19,7 +20,7 @@ def users_get():
 @app_views.route('/users/<string:user_id>', methods=['GET'],
                  strict_slashes=False)
 def users_id(user_id):
-    retrieve user by id
+    '''get users by id'''
     users = storage.get(User, user_id)
     if not users:
         abort(404)
@@ -29,7 +30,7 @@ def users_id(user_id):
 @app_views.route('/users/<string:user_id>', methods=['DELETE'],
                  strict_slashes=False)
 def user_delete(user_id=None):
-    delete a user by id
+    '''delete users'''
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
@@ -40,7 +41,7 @@ def user_delete(user_id=None):
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def user_post():
-    Create an user
+    '''create new users'''
     user = request.get_json(silent=True)
     if user is None:
         abort(400, "Not a JSON")
@@ -57,7 +58,7 @@ def user_post():
 @app_views.route('/users/<string:user_id>', methods=['PUT'],
                  strict_slashes=False)
 def user_update(user_id):
-   update user
+    '''update users'''
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
